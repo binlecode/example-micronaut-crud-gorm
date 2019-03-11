@@ -1,0 +1,26 @@
+micronaut:
+    application:
+        name: bookcatalogue  # used as service name in consul
+#    server:
+#        port: 8081
+
+
+dataSource:
+    pooled: true
+#    dbCreate: create-drop
+    dbCreate: update
+#    url: jdbc:h2:mem:devDb
+    url: jdbc:mysql://127.0.0.1:3306/testmicronaut
+    driverClassName: com.mysql.jdbc.Driver
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    username: root
+    password: mysql
+#    username: sa
+#    driverClassName: org.h2.Driver
+#    password:
+hibernate:
+    cache:
+        queries: false
+        use_second_level_cache: true
+        use_query_cache: false
+        region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
