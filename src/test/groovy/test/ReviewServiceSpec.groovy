@@ -34,6 +34,24 @@ class ReviewServiceSpec extends Specification {
         def count = reviewService.countByBook(book)
         then:
         count == 1
+    }
+
+    def 'should be able to update review for a book'() {
+        given:
+        Book book = new Book(name: 'test-book-1')
+        Review review = new Review()
+        review.content = 'test review for the book-1'
+        book.addToReviews(review)
+        book.save(flush: true)
+
+        when:
+        reviewService.save(bookId: book.id, id: review.id, content: 'updated test review')
+
+        then:
+        List<Review> rvs = reviewService.findAllByBookId(book.id)
+        rvs.size() == 1
+        rvs[0].content == 'updated test review'
+
 
     }
 
