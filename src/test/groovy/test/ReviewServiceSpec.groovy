@@ -24,14 +24,17 @@ class ReviewServiceSpec extends Specification {
         book.addToReviews(review)
         book.save(flush: true)
 
-//        then:
-//        review.book.id == 1
-//        review.bookId == 1
-
         then:
         book.reviews.size() == 1
-        book.reviews[0].id == 1
-        reviewService.countByBook(book) == 1
+        Review rv = book.reviews[0]
+        rv.id == 1
+        rv.content == 'test review for the book'
+        rv.bookId == book.id
+
+        when:
+        def count = reviewService.countByBook(book)
+        then:
+        count == 1
 
     }
 
