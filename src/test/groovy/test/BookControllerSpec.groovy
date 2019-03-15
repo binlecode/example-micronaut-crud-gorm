@@ -22,6 +22,6 @@ class BookControllerSpec extends Specification {
         List books = client.toBlocking().retrieve(HttpRequest.GET('/books'), Argument.of(List, Book))
 
         expect:
-        books.size() == 3
+        books.size() == 0
     }
 }

@@ -2,7 +2,7 @@ package test
 
 import grails.gorm.transactions.Rollback
 import io.micronaut.context.ApplicationContext
-import io.micronaut.runtime.server.EmbeddedServer
+import org.grails.orm.hibernate.HibernateDatastore
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -10,17 +10,17 @@ import spock.lang.Specification
 @Rollback
 class BookServiceSpec extends Specification {
 
-//    @Shared @AutoCleanup ApplicationContext context =
-//            ApplicationContext.build().mainClass(BookServiceSpec).start()
-//    @Shared HibernateDatastore hibernateDatastore = context.getBean(HibernateDatastore)
+    // for service spec, there's no need to invoke embedded server
 
-    @Shared @AutoCleanup EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
-    @Shared BookService bookService = embeddedServer.getApplicationContext().getBean(BookService)
+    @Shared @AutoCleanup ApplicationContext context =
+            ApplicationContext.build().mainClass(BookServiceSpec).start()
+    @Shared HibernateDatastore hibernateDatastore = context.getBean(HibernateDatastore)
+    @Shared BookService bookService = hibernateDatastore.getService(BookService)
+
+//    @Shared @AutoCleanup EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
+//    @Shared BookService bookService = embeddedServer.getApplicationContext().getBean(BookService)
 
     def 'should list books'() {
-//        given:
-//        BookService bookService = hibernateDatastore.getService(BookService)
-
         when:
         def count = bookService.count()
 
@@ -33,9 +33,7 @@ class BookServiceSpec extends Specification {
         bookService.count() == 1
         bookService.findAll().size() == 1
         bookService.findAll()[0].name == 'book1'
-
-
-
-
     }
+
+
 }

@@ -4,13 +4,14 @@ micronaut:
 
 dataSource:
     pooled: true
-    dbCreate: create
+    dbCreate: update  # don't use create or create-drop otherwise DDL will drop db objects during testing...
     url: jdbc:h2:mem:testDb
     driverClassName: org.h2.Driver
+    dialect: org.hibernate.dialect.H2Dialect
     username: sa
     password:
-hibernate:
-    cache:
-        queries: false
-        use_second_level_cache: false
-        use_query_cache: false
+#hibernate:
+#    cache:
+#        queries: false
+#        use_second_level_cache: false
+#        use_query_cache: false

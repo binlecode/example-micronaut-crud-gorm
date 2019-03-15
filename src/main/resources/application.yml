@@ -9,18 +9,25 @@ dataSource:
     pooled: true
 #    dbCreate: create-drop
     dbCreate: update
-#    url: jdbc:h2:mem:devDb
     url: jdbc:mysql://127.0.0.1:3306/testmicronaut
     driverClassName: com.mysql.jdbc.Driver
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     username: root
     password: mysql
-#    username: sa
-#    driverClassName: org.h2.Driver
-#    password:
+    # enable sql logging
+    logSql: true
+    formatSql: true
+
 hibernate:
+    show_sql: true
     cache:
         queries: false
         use_second_level_cache: true
         use_query_cache: false
         region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+
+
+# logs the SQL statements
+log4j.logger.org.hibernate.SQL: debug
+# Logs the JDBC parameters passed to a query
+log4j.logger.org.hibernate.type: debug

@@ -14,13 +14,17 @@ import io.micronaut.validation.Validated
 class BookController {
 
     private final BookService bookService
+    private final ReviewService reviewService
 
     // prefer constructor injection over setter injection
-    BookController(BookService bookService) {
+    BookController(BookService bookService, ReviewService reviewService) {
         this.bookService = bookService
+        this.reviewService = reviewService
     }
 //    @Inject
 //    BookService bookService
+//    @Inject
+//    ReviewService reviewService
 
     @Get("/")
     List<Book> index() {
@@ -51,6 +55,11 @@ class BookController {
                 return null
             }
         }
+    }
+
+    @Get("/{id}/review")
+    List<Review> getReviews(Long id) {
+        return reviewService.findAllByBookId(id)
     }
 
 }
