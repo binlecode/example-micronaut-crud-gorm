@@ -3,10 +3,9 @@ package test
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
-import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.http.client.RxHttpClient
-import io.micronaut.http.HttpResponse
-import io.micronaut.http.HttpStatus
+import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.runtime.server.EmbeddedServer
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -23,5 +22,23 @@ class BookControllerSpec extends Specification {
 
         expect:
         books.size() == 0
+    }
+
+    void "GET /book/{id} with an invalid Long number responds 400"() {
+        when:
+        client.toBlocking().exchange("/book/badId")
+
+        then:
+        HttpClientResponseException e = thrown(HttpClientResponseException)
+        e.status.code == 400
+    }
+
+    void "GET /book/{id} with invalid id responds 404"() {
+        when:
+        client.toBlocking().exchange("/book/999")
+
+        then:
+        HttpClientResponseException e = thrown(HttpClientResponseException)
+        e.status.code == 404
     }
 }
