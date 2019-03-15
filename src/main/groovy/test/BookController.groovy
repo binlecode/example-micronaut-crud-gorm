@@ -2,7 +2,6 @@ package test
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
@@ -33,7 +32,7 @@ class BookController {
     }
 
     @Get("/{id}")
-    Book get(@Parameter Long id) {
+    Book get(Long id) {
         return bookService.find(id)
     }
 
@@ -44,7 +43,7 @@ class BookController {
     }
 
     @Put("/{id}")
-    Book update(@Parameter Long id, @Body Book book) {
+    Book update(Long id, @Body Book book) {
         Book.withTransaction {
             Book bk = bookService.find(id)
             if (bk) {

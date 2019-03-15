@@ -19,7 +19,6 @@ class ReviewServiceSpec extends Specification {
         when:
         Book book = new Book(name: 'test-book')
         Review review = new Review()
-//        review.book = book
         review.content = 'test review for the book'
         book.addToReviews(review)
         book.save(flush: true)

@@ -19,7 +19,7 @@ class BookControllerSpec extends Specification {
 
     void "test index getting back list of books"() {
         given:
-        List books = client.toBlocking().retrieve(HttpRequest.GET('/books'), Argument.of(List, Book))
+        List books = client.toBlocking().retrieve(HttpRequest.GET('/book'), Argument.of(List, Book))
 
         expect:
         books.size() == 0

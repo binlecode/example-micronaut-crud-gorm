@@ -27,7 +27,7 @@ class ReviewController {
     }
 
     @Get("/{id}")
-    Review get(@Parameter Long id) {
+    Review get(Long id) {
         return reviewService.find(id)
     }
 
