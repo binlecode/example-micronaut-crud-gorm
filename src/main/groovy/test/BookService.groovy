@@ -5,22 +5,25 @@ import io.micronaut.validation.Validated
 
 import javax.validation.constraints.NotNull
 
+
+/**
+ * Not a big fan of interface based service alone, this is only to illustrate GORM-JPA auto implementation
+ * based on Micronaut's @Decoration aop pattern.
+ * A better way is to create an abstract class to for custom persistence methods while still keep 'template'
+ * methods as abstract method
+ * @see {@link ReviewService}
+ */
 @Service(Book)
 @Validated
-abstract class BookService {
+interface BookService {
 
-    abstract int count()
+    int count()
 
-    abstract List<Book> findAll()
+    List<Book> findAll()
 
-    abstract Book find(@NotNull Long id)
+    Book find(@NotNull Long id)
 
-    abstract Book save(@NotNull Book book)
+    Book save(@NotNull Book book)
 
-//    @Transactional  // Gorm @Service annotation defaults @Transactional to each public method
-    void delete(Long id) {
-        Book book = Book.get(id)
-        book.delete(flush: true)  // flush is needed to ensure db state is synced in the overall Hibrernate transaction
-    }
-
+    void delete(@NotNull Long id)
 }

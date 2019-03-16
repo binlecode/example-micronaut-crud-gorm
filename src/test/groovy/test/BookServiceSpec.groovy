@@ -44,8 +44,14 @@ class BookServiceSpec extends Specification {
         count == 1
 
         when:
-        bookService.delete(book.id)
-        count = bookService.count()
+        // separate delete and check in two separate transactions to ensure delete is committed before check
+        // in spock by default the whole feature method is wrapped in single transaction
+        Book.withNewTransaction {
+            bookService.delete(book.id)
+        }
+        Book.withNewTransaction {
+            count = bookService.count()
+        }
         then:
         count == 0
 
