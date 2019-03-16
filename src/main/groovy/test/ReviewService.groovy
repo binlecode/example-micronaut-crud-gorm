@@ -2,10 +2,17 @@ package test
 
 import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
+import io.micronaut.validation.Validated
+
+import javax.inject.Inject
+import javax.validation.constraints.NotNull
 
 // use abstract class instead of interface as shortcut to implement custom persistence methods
 @Service(Review)
+@Validated
 abstract class ReviewService {
+    @Inject  // abstract class can not use constructor DI
+    BookService bookService
 
     /**
      * Count reviews
@@ -19,24 +26,40 @@ abstract class ReviewService {
     abstract int countByBook(Book book)
 
     /**
-     * Delete review by id
+     * Count reviews by book id
      */
-    abstract void delete(Long id)
+    @Transactional(readOnly = true)
+    int countByBookId(Long bookId) {
+        return countByBook(Book.findById(bookId))
+    }
 
     /**
-     * Find review by id
+     * List all reviews
      */
-    abstract Review find(Long id)
+    abstract List<Review> findAll()
+
+    /**
+     * Find all reviews by book
+     */
+    abstract List<Review> findAllByBook(Book book)
 
     /**
      * Find all reviews by book id
      */
     @Transactional(readOnly = true)
-    List<Review> findAllByBookId(Long bookId) {  //todo: add @NotNull to bookId param will raise error coz it is not a concrete class
+    List<Review> findAllByBookId(Long bookId) {  //fixme: adding @NotNull to bookId in concreate method will raise MethodNotFund error
         Review.findAll() { book == Book.findById(bookId) }
-//        Book book = Book.findById(bookId)
-//        return book?.reviews ?: []
     }
+
+    /**
+     * Find review by id
+     */
+    abstract Review find(@NotNull Long id)
+
+    /**
+     * Delete review by id
+     */
+    abstract void delete(@NotNull Long id)
 
     /**
      * Hibernate/JPA standard method, requires a fully-fledged review instance, including nested book object
@@ -44,28 +67,32 @@ abstract class ReviewService {
     abstract Review save(Review review)
 
     /**
-     * @param params map of bookId, id (optional), and content
+     * Create or update review
+     * @param params map of id (optional), bookId (optional) and content
      */
     @Transactional
     Review save(Map params) {
-        Book book = Book.findById(params.bookId as Long)
-        if (book) {
-            Review review
-            if (params.id) {
-                review = Review.findById(params.id as Long)
-            } else {
-                review = new Review()
+        Review review
+        if (params.id) {
+            review = find(params.id as Long)
+            if (!review) {
+                return
             }
-            review.content = params.content
-
-            //todo: direct book assignment on review doesn't work: review.book = book; review.save() will raise error
-            book.addToReviews(review)
-//            book.save()    // either book.save() or review.save() works
-            review.save()
-            return review
         } else {
-            return null
+            review = new Review()
         }
+        review.content = params.content
+        if (params.bookId) {
+            Book book = bookService.find(params.bookId as Long)
+            if (book) {
+                // direct book assignment on review doesn't work: review.book = book; review.save() will raise error
+                // this is prob due to strict rule that FK can not be re-assigned from child side
+                book.addToReviews(review)
+            }
+        }
+        return review.save()
     }
+
+
 
 }

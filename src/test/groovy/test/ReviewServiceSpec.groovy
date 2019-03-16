@@ -14,46 +14,69 @@ class ReviewServiceSpec extends Specification {
             ApplicationContext.build().mainClass(ReviewService).start()
     @Shared HibernateDatastore hibernateDatastore = context.getBean(HibernateDatastore)
     @Shared ReviewService reviewService = hibernateDatastore.getService(ReviewService)
+    @Shared BookService bookService = hibernateDatastore.getService(BookService)
 
-    def 'should be able to create review for a book'() {
+
+    def 'should be able to create a review for a book'() {
+        given:
+        Book book = bookService.save(new Book(name: 'test book'))
         when:
-        Book book = new Book(name: 'test-book')
-        Review review = new Review()
-        review.content = 'test review for the book'
-        book.addToReviews(review)
-        book.save(flush: true)
+        Review review = reviewService.save(bookId: book.id, content: 'test review for test book')
 
         then:
-        book.reviews.size() == 1
-        Review rv = book.reviews[0]
-        rv.id == 1
-        rv.content == 'test review for the book'
-        rv.bookId == book.id
+        review.id
+        reviewService.countByBookId(book.id) == 1
 
         when:
-        def count = reviewService.countByBook(book)
+        List<Review> rvs = reviewService.findAllByBookId(book.id)
+        then:
+        rvs.size() == 1
+        rvs[0].content == 'test review for test book'
+    }
+
+    def 'should be able to update a review for a book'() {
+        given:
+        Book book = bookService.save(new Book(name: 'test book'))
+        when:
+        Review review = reviewService.save(bookId: book.id, content: 'test review for test book')
+        then:
+        reviewService.countByBook(book) == 1
+
+        when:
+        reviewService.save(id: review.id, content: 'updated test review for test book')
+
+        then:
+        reviewService.countByBook(book) == 1
+        reviewService.findAllByBookId(book.id)[0].content == 'updated test review for test book'
+    }
+
+    def 'should be able to delete a review for a book'() {
+        given:
+        Book book
+        Review review
+        Book.withNewTransaction {
+            book = bookService.save(new Book(name: 'test book'))
+            review = reviewService.save(bookId: book.id, content: 'test review for test book')
+        }
+        when:
+        def count = reviewService.countByBookId(book.id)
         then:
         count == 1
-    }
-
-    def 'should be able to update review for a book'() {
-        given:
-        Book book = new Book(name: 'test-book-1')
-        Review review = new Review()
-        review.content = 'test review for the book-1'
-        book.addToReviews(review)
-        book.save(flush: true)
 
         when:
-        reviewService.save(bookId: book.id, id: review.id, content: 'updated test review')
-
+        Book.withNewTransaction {
+            reviewService.delete(review.id)
+        }
+        Book.withNewTransaction {
+            count = reviewService.countByBookId(book.id)
+        }
         then:
-        List<Review> rvs = reviewService.findAllByBookId(book.id)
-        rvs.size() == 1
-        rvs[0].content == 'updated test review'
-
-
+        count == 0
     }
+
+
+
+
 
 
 }

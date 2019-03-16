@@ -1,14 +1,11 @@
 package test
 
 import groovy.transform.CompileStatic
-import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.HttpStatus
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.Status
+import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
+
+import javax.validation.constraints.NotNull
 
 @CompileStatic
 @Controller("/review")
@@ -23,18 +20,30 @@ class ReviewController {
 
     @Get("/")
     List<Review> index() {
-        return []
+        return reviewService.findAll()
     }
 
     @Get("/{id}")
-    Review get(Long id) {
+    Review get(@NotNull Long id) {
         return reviewService.find(id)
     }
 
     @Post("/")
     @Status(HttpStatus.CREATED)
-    Review create(@Body Map params) {
+    Review create(@NotNull @Body Map params) {
         return reviewService.save(params)
+    }
+
+    @Put("/{id}")
+    Review update(@NotNull Long id, @NotNull @Body Map params) {
+        params.id = id
+        return reviewService.save(params)
+    }
+
+    @Delete("/{id}")
+    @Status(HttpStatus.NO_CONTENT)
+    void delete(@NotNull Long id) {
+        reviewService.delete(id)
     }
 
 }
