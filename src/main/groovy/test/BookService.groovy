@@ -7,16 +7,20 @@ import javax.validation.constraints.NotNull
 
 @Service(Book)
 @Validated
-interface BookService {
+abstract class BookService {
 
-    int count()
+    abstract int count()
 
-    List<Book> findAll()
+    abstract List<Book> findAll()
 
-    Book find(@NotNull Long id)
+    abstract Book find(@NotNull Long id)
 
-    Book save(@NotNull Book book)
+    abstract Book save(@NotNull Book book)
 
-    void delete(@NotNull Long id)
+//    @Transactional  // Gorm @Service annotation defaults @Transactional to each public method
+    void delete(Long id) {
+        Book book = Book.get(id)
+        book.delete(flush: true)  // flush is needed to ensure db state is synced in the overall Hibrernate transaction
+    }
 
 }

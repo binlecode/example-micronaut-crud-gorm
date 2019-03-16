@@ -35,5 +35,21 @@ class BookServiceSpec extends Specification {
         bookService.findAll()[0].name == 'book1'
     }
 
+    def 'should be able to delete a book'() {
+        given:
+        Book book = bookService.save(new Book(name: 'test-book'))
+        when:
+        def count = bookService.count()
+        then:
+        count == 1
+
+        when:
+        bookService.delete(book.id)
+        count = bookService.count()
+        then:
+        count == 0
+
+    }
+
 
 }
