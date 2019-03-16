@@ -45,7 +45,7 @@ class BookController {
     }
 
     @Put("/{id}")
-    Book update(@NotNull Long id, @Body Book book) {
+    Book update(@NotNull Long id, @NotNull @Body Book book) {
         Book.withTransaction {
             Book bk = bookService.find(id)
             if (bk) {
