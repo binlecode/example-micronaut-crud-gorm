@@ -6,6 +6,8 @@ import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
 
+import javax.validation.constraints.NotNull
+
 @Slf4j
 @CompileStatic
 @Controller("/book")
@@ -32,7 +34,7 @@ class BookController {
     }
 
     @Get("/{id}")
-    Book get(Long id) {
+    Book get(@NotNull Long id) {
         return bookService.find(id)
     }
 
@@ -43,7 +45,7 @@ class BookController {
     }
 
     @Put("/{id}")
-    Book update(Long id, @Body Book book) {
+    Book update(@NotNull Long id, @Body Book book) {
         Book.withTransaction {
             Book bk = bookService.find(id)
             if (bk) {
@@ -54,6 +56,12 @@ class BookController {
                 return null
             }
         }
+    }
+
+    @Delete("/{id}")
+    @Status(HttpStatus.NO_CONTENT)
+    void delete(@NotNull Long id) {
+        bookService.delete(id)
     }
 
     @Get("/{id}/review")

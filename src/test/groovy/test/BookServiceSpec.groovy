@@ -36,16 +36,23 @@ class BookServiceSpec extends Specification {
     }
 
     def 'should be able to delete a book'() {
+        // separate create, delete and check in separate transactions to ensure session is flushed (by commit)
+        // before check
+        // in spock by default the whole feature method is wrapped in single transaction, and interface (JPA)
+        // methods have no explicit session flush but rather rely on transaction boundary
+
         given:
-        Book book = bookService.save(new Book(name: 'test-book'))
+        Book book
+        Book.withNewTransaction {
+            book = bookService.save(new Book(name: 'test-book'))
+        }
         when:
         def count = bookService.count()
         then:
         count == 1
 
         when:
-        // separate delete and check in two separate transactions to ensure delete is committed before check
-        // in spock by default the whole feature method is wrapped in single transaction
+
         Book.withNewTransaction {
             bookService.delete(book.id)
         }
