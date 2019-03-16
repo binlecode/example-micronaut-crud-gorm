@@ -15,7 +15,9 @@ dataSource:
     username: root
     password: mysql
     # enable sql logging
-    logSql: true
+    # showing sql log this can also be activated by logback.xml logger definition
+    # which is a better way because there the log level can be customized
+    #logSql: true
     formatSql: true
 
 hibernate:
