@@ -12,6 +12,7 @@ simple micronaut example with CRUD restful API and hibernate gorm persistence la
 - [x] show javax validation on RESTful API endpoints
 - [x] show RESTful web api for CRUD operations
 - [x] show mixed REST and HTML view with Thymeleaf template engine (dead simple!)
+- [ ] show servlet filter usage as controller action AoP 
 - [ ] show RxJava in web stack
 - [ ] show RxGorm in persistence
 - [ ] integration with Travis-CI
