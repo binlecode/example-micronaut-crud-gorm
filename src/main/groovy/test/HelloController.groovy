@@ -9,6 +9,7 @@ import io.micronaut.http.annotation.Header
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Produces
 import io.micronaut.http.annotation.Status
+import io.micronaut.views.ModelAndView
 import io.micronaut.views.View
 
 import javax.annotation.Nullable
@@ -65,6 +66,24 @@ class HelloController {
 //    @Produces(MediaType.TEXT_HTML)  // this can be saved as view is specified in annotation
     HttpResponse<Map> showView() {
         return HttpResponse.ok([name: '<i>there</i>', greeting: '<em>hello</em>'])
+    }
+
+    @Get("/showAbout")
+    @View("about")
+    ModelAndView showTextView() {
+        return new ModelAndView('about', [
+                username: 'client',
+                messages: [
+                        'Congratulations!',
+                        'You just won a $10, 000, 000, 000 lottery!',
+                        '... (wine) ...',
+                        '... (job resign) ...',
+                        '<em>Just kidding</em>, this is a Micronaut-Thymeleaf text message test...',
+                        '...',
+                        'Disappointed and angry?',
+                        'Keep calm and go back to coding.'
+                ]
+        ])
     }
 
 
