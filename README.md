@@ -9,8 +9,9 @@ simple micronaut example with CRUD restful API and hibernate gorm persistence la
 - [x] show preferred constructor based dependency injection
 - [x] show typical domain ORM with GORM persistence
 - [x] show abstract class implementation of GORM services to customize JPA standard methods
-- [x] show javax validation on GORM entities
-- [ ] show RESTful web api for CRUD operations
+- [x] show javax validation on RESTful API endpoints
+- [x] show RESTful web api for CRUD operations
+- [x] show mixed REST and HTML view with Thymeleaf template engine (dead simple!)
 - [ ] show RxJava in web stack
 - [ ] show RxGorm in persistence
 - [ ] integration with Travis-CI

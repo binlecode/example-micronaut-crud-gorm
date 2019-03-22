@@ -36,7 +36,7 @@ dependencies {
     testCompile "io.micronaut:micronaut-inject-java"
     testCompile "org.hamcrest:hamcrest-all:1.3"
 
-
+    // hibernate gorm and entity validation
     compile 'io.micronaut.configuration:micronaut-hibernate-gorm'
     compile "io.micronaut.configuration:micronaut-hibernate-validator"
 
@@ -48,6 +48,18 @@ dependencies {
     // Use H2 database driver
     runtime  'com.h2database:h2'
     runtime 'mysql:mysql-connector-java:5.1.40'
+
+    // swagger api doc
+    compile "io.swagger.core.v3:swagger-annotations"
+    compileOnly "io.micronaut.configuration:micronaut-openapi"
+
+    // add server side views rendering support
+    // Views and templates can be placed in src/main/resources/views
+    compile "io.micronaut:micronaut-views"
+    // use Thymeleaf for view template engine
+    runtime "org.thymeleaf:thymeleaf:3.0.11.RELEASE"
+
+
 
 }
 
