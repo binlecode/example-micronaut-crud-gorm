@@ -35,7 +35,7 @@ class BookController {
 
     @Get("/{id}")
     Book get(@NotNull Long id) {
-        return bookService.find(id)
+        return bookService.find(id)  // by default, returning null will trigger a 404 response code
     }
 
     @Post("/")
