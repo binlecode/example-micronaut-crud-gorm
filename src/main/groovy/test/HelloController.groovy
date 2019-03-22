@@ -64,7 +64,7 @@ class HelloController {
     @View("hello")
 //    @Produces(MediaType.TEXT_HTML)  // this can be saved as view is specified in annotation
     HttpResponse<Map> showView() {
-        return HttpResponse.ok([name: 'there', greeting: 'hello'])
+        return HttpResponse.ok([name: '<i>there</i>', greeting: '<em>hello</em>'])
     }
 
 
