@@ -35,6 +35,8 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "io.micronaut:micronaut-inject-java"
     testCompile "org.hamcrest:hamcrest-all:1.3"
+    // additional spock test integration from Micronaut
+    testCompile "io.micronaut.test:micronaut-test-spock:1.0.2"
 
     // hibernate gorm and entity validation
     compile 'io.micronaut.configuration:micronaut-hibernate-gorm'
