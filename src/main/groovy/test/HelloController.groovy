@@ -1,5 +1,6 @@
 package test
 
+import groovy.transform.CompileStatic
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MediaType
@@ -15,6 +16,7 @@ import io.micronaut.views.View
 import javax.annotation.Nullable
 import javax.validation.constraints.NotNull
 
+@CompileStatic
 @Controller("/hello")
 class HelloController {
 
@@ -64,10 +66,14 @@ class HelloController {
     @Get("/showView")
     @View("hello")
 //    @Produces(MediaType.TEXT_HTML)  // this can be saved as view is specified in annotation
-    HttpResponse<Map> showView() {
+//    HttpResponse<Map> showView() {
+    HttpResponse showView() {
         return HttpResponse.ok([name: '<i>there</i>', greeting: '<em>hello</em>'])
     }
 
+    /**
+     * Html view with classic ModelAndView approach
+     */
     @Get("/showAbout")
     @View("about")
     ModelAndView showTextView() {
