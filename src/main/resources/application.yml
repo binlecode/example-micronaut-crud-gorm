@@ -1,9 +1,10 @@
 micronaut:
     application:
         name: bookcatalogue  # used as service name in consul
-#    server:
+    server:
 #        port: 8081
-
+        cors:
+            enabled: true
 
 dataSource:
     pooled: true
@@ -33,3 +34,19 @@ hibernate:
 log4j.logger.org.hibernate.SQL: debug
 # Logs the JDBC parameters passed to a query
 log4j.logger.org.hibernate.type: debug
+
+
+# Swagger API doc
+# Note that even when CORS is enabled, Chrome’s security restrictions (CORS objections) prevent you
+#    from viewing the Swagger UI file locally. You can use Firefox or Safari instead.
+---
+micronaut:
+    router:
+        static-resources:
+            swagger:
+                paths: classpath:META-INF/swagger
+                mapping: /swagger/**   # map to <contextRoot>/swagger
+            swagger_ui:
+                paths: classpath:public/swagger-ui # => src/main/resources/public
+                mapping: /swagger-ui/**
+

@@ -49,9 +49,17 @@ dependencies {
     runtime  'com.h2database:h2'
     runtime 'mysql:mysql-connector-java:5.1.40'
 
-    // swagger api doc
-    compile "io.swagger.core.v3:swagger-annotations"
+    // swagger api doc, this will display at gradle run console output:
+    // ...
+    // > Task :compileGroovy
+    // Note: Generating OpenAPI Documentation
+    // Note: Writing OpenAPI YAML to destination: file://.../example-micronaut-crud-gorm/build/classes/groovy/main/META-INF/swagger/hello-world-0.1.yml
+    // ...
+    // for groovy the scope should be 'compileOnly'
     compileOnly "io.micronaut.configuration:micronaut-openapi"
+    // for java the scope should be 'annotationProcessor'
+    //annotationProcessor "io.micronaut.configuration:micronaut-openapi"
+    compile "io.swagger.core.v3:swagger-annotations"
 
     // add server side views rendering support
     // Views and templates can be placed in src/main/resources/views
