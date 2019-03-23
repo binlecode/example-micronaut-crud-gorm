@@ -1,5 +1,6 @@
 # example-micronaut-crud-gorm
-simple micronaut example with CRUD restful API and hibernate gorm persistence layer
+Simple Micronaut example with CRUD restful API and hibernate GORM persistence layer.
+Application is implemented in groovy to leverage GORM and groovy AST compile-time AoP in general.
 
 
 ## Todos
@@ -30,6 +31,42 @@ simple micronaut example with CRUD restful API and hibernate gorm persistence la
 
 
 
+
+## Appendix - Swagger API doc generation
+
+The following setup follows official configuration guide: `https://docs.micronaut.io/latest/guide/index.html#openapi`
+
+During setup, in `build.gradle`, make sure the dependencies are marked with proper build scope:
+```groovy
+// For groovy the scope should be 'compileOnly'
+compileOnly "io.micronaut.configuration:micronaut-openapi"
+// For java the scope should be 'annotationProcessor'
+//annotationProcessor "io.micronaut.configuration:micronaut-openapi"
+// Swagger annotation dependency must be in compile scope because the api doc genertion
+// takes place during 'groovyCompile 
+compile "io.swagger.core.v3:swagger-annotations"
+```
+With dependencies loaded, the application needs to know where to store the generated api doc (yaml) file.
+By default the file is saved at `<app-root-folder>/build/classes/groovy/main/META-INF/swagger/<app-name>-<version>.yml`
+
+During gradle build, the console will output:
+```bash
+> Task :compileGroovy
+Note: Generating OpenAPI Documentation
+Note: Writing OpenAPI YAML to destination: file:/.../example-micronaut-crud-gorm/build/classes/groovy/main/META-INF/swagger/hello-world-0.1.yml
+```
+
+To expose it as a static web page, it needs to be mapped to a relative url in `application.yml` configuration file.
+```yaml
+micronaut:
+    router:
+        static-resources:
+            swagger:
+                paths: classpath:META-INF/swagger
+                mapping: /swagger/**   # map to <contextRoot>/swagger
+```
+
+Now this API doc file can be accessed via url of `http://localhost:8080/swagger`.  
 
 ## Appendix - Swagger-UI static resource mapping
 
