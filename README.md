@@ -18,6 +18,10 @@ Application is implemented in groovy to leverage GORM and groovy AST compile-tim
 - [ ] show RxGorm in persistence
 - [ ] integration with Travis-CI
 
+### testing
+- [x] show spock integration
+- [x] show Micronaut addtional test annotations 
+
 ### service discovery
 - [x] swagger API annotation
 - [x] embedded swagger-ui API test support
