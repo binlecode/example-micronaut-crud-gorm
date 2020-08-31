@@ -1,4 +1,4 @@
-package test
+package example
 
 import grails.gorm.services.Service
 import io.micronaut.validation.Validated

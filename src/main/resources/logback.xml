@@ -12,7 +12,7 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="test" level="DEBUG"/>
+    <logger name="example" level="DEBUG"/>
     <logger name="io.micronaut.http.client" level="TRACE"/>
     <!-- SQL log is not needed if sql.BasicBinder logger is defined -->
     <!--<logger name="org.hibernate.SQL" level="DEBUG"/>-->

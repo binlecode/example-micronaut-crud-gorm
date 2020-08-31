@@ -1,4 +1,4 @@
-package test
+package example
 
 import grails.gorm.transactions.Rollback
 import io.micronaut.context.ApplicationContext

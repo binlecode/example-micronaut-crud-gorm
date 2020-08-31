@@ -1,4 +1,4 @@
-package test
+package example
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

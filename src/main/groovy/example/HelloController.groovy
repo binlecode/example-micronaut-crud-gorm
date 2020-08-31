@@ -1,4 +1,4 @@
-package test
+package example
 
 import groovy.transform.CompileStatic
 import io.micronaut.http.HttpResponse

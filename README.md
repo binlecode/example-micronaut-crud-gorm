@@ -3,6 +3,12 @@ Simple Micronaut example with CRUD restful API and hibernate GORM persistence la
 Application is implemented in groovy to leverage GORM and groovy AST compile-time AoP in general.
 
 
+## Quick run
+
+```bash
+./gradlew run
+```
+
 ## Todos
 
 ### basic stack
@@ -20,11 +26,11 @@ Application is implemented in groovy to leverage GORM and groovy AST compile-tim
 
 ### testing
 - [x] show spock integration
-- [x] show Micronaut addtional test annotations 
+- [x] show Micronaut addtional example annotations 
 
 ### service discovery
 - [x] swagger API annotation
-- [x] embedded swagger-ui API test support
+- [x] embedded swagger-ui API example support
 - [ ] integration with Consul for centralized runtime/bootstrap configuration
 - [ ] integration with Consul for service discovery
 

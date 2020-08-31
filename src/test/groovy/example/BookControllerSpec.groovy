@@ -1,4 +1,4 @@
-package test
+package example
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.type.Argument

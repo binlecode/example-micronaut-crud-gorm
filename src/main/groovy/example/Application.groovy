@@ -1,4 +1,4 @@
-package test
+package example
 
 import io.micronaut.runtime.Micronaut
 import groovy.transform.CompileStatic

@@ -1,4 +1,4 @@
-package test
+package example
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import grails.gorm.annotation.Entity
