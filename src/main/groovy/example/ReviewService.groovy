@@ -8,6 +8,10 @@ import javax.inject.Inject
 import javax.validation.constraints.NotNull
 
 // use abstract class instead of interface as shortcut to implement custom persistence methods
+
+// Each method that interacts with GORM should be annotated with GORM’s grails.gorm.transactions.Transactional
+// to ensure a session is present. You can also add the @Transactional annotation to the class.
+
 @Service(Review)
 @Validated
 abstract class ReviewService {

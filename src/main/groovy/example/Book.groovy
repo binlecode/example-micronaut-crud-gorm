@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import grails.gorm.annotation.Entity
 import org.grails.datastore.gorm.GormEntity
 
+// Each class to be a GORM entity should be annotated with the grails.gorm.annotation.Entity annotation.
+
 //@EqualsAndHashCode
 //@CompileStatic
 @Entity
