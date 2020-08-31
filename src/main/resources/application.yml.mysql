@@ -8,12 +8,13 @@ micronaut:
 
 dataSource:
     pooled: true
-    dbCreate: update  # don't use create or create-drop otherwise DDL will drop db objects during testing...
-    url: jdbc:h2:file:./devDb
-    driverClassName: org.h2.Driver
-    dialect: org.hibernate.dialect.H2Dialect
-    username: sa
-    password:
+#    dbCreate: create-drop
+    dbCreate: update
+    url: jdbc:mysql://127.0.0.1:3306/testmicronaut
+    driverClassName: com.mysql.jdbc.Driver
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    username: root
+    password: mysql
     # enable sql logging
     # showing sql log this can also be activated by logback.xml logger definition
     # which is a better way because there the log level can be customized
